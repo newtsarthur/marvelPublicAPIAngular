@@ -1,0 +1,31 @@
+<div class="container">
+  <h1 class="text-center">Personagens</h1>
+  <div class="row">
+    <div class="col-md-4 mb-4"
+      *ngFor="let character of characters | paginate: { itemsPerPage: 10, currentPage: currentPage }">
+      <div class="card">
+        <img [src]="character.thumbnail.path + '.' + character.thumbnail.extension" class="card-img-top"
+          alt="{{ character.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ character.name }}</h5>
+          <p class="card-text">{{ character.description ?? 'Not defined'}}</p>
+          <strong>Comics available:</strong> {{ character.comics.available ?? 'Not defined' }}
+
+          <p class="card-text"><strong>Series available:</strong> {{ character.series.available ?? 'Not defined' }}</p>
+          <div *ngIf="character.urls && character.urls.length > 0">
+            <p><strong>Links:</strong></p>
+            <ul>
+              <li *ngFor="let url of character.urls">
+                <a [href]="getValidUrl(url.url)" target="_blank">{{ url.type }}</a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <pagination-controls class="pagination-lg" (pageChange)="onPageChange($event)"></pagination-controls>
+    </div>
+  </div>
+</div>

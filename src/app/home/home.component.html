@@ -1,0 +1,20 @@
+<div class="container">
+  <h1 class="text-center">Marvel Home</h1>
+  <div class="mt-5 d-flex justify-content-around">
+    <div class="mx-5  mb-5">
+      <button [appZoom]="1.2"
+        class="card p-5 comicsImg d-flex justify-content-center align-items-center shadow button-style big-button"
+        (click)="navigateToComicsList()">
+        {{"Hqs" | uppercase}}
+      </button>
+    </div>
+
+    <div class="mx-5 mb-5">
+      <button [appZoom]="1.2"
+        class="card p-5 charactersImg d-flex justify-content-center align-items-center shadow button-style big-button"
+        (click)="navigateToCharactersList()">
+        {{"Personagens" | uppercase}}
+      </button>
+    </div>
+  </div>
+</div>
