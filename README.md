@@ -103,7 +103,7 @@ Instalação
 
 1. Clone o repositório:
 
-git clone https://github.com/usuario/marvel-public-api-angular.git
+git clone (https://github.com/newtsarthur/marvelPublicAPIAngular.git)
 
 
 2. Navegue até o diretório do projeto:
