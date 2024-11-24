@@ -78,9 +78,7 @@ export class CharactersListComponent implements OnInit {
     this.currentPage = event;
   }
   getValidUrl(url: string): string {
-    // Verifica se o URL começa com 'http' ou 'https'
     if (!url.startsWith('http')) {
-      // Adiciona o domínio ou prefixo necessário para o URL funcionar corretamente
       return 'https://' + url;
     }
     return url;
