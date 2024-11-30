@@ -1,29 +1,77 @@
-.button-style {
-  min-width: 220px;
-  text-align: center;
+/* Estilos gerais */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
 }
 
+/* Título principal */
 h1 {
-  color: white;
+  color: #ff0000; /* Vermelho estilo Marvel */
   text-shadow: 2px 2px black;
+  font-size: 3rem;
+  margin-top: 20px;
 }
 
+/* Botões principais */
 .big-button {
   width: 35vw;
   height: 40vh;
-  font-size: 50px;
-  margin-top: 150px;
+  font-size: 2.5vw; /* Responsivo ao tamanho da viewport */
   font-weight: bold;
   color: white;
   text-shadow: 2px 2px black;
-
+  border: none;
+  border-radius: 10px; /* Bordas arredondadas */
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
+/* Efeito hover nos botões */
+.big-button:hover {
+  transform: scale(1.05); /* Aumenta ligeiramente no hover */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Imagem de fundo para o botão de HQs */
 .comicsImg {
   background-image: url('../../assets/comics.jpeg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
+/* Imagem de fundo para o botão de Personagens */
 .charactersImg {
   background-image: url('../../assets/characters.jpeg');
-  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem; /* Reduz o tamanho do título */
+  }
+
+  .big-button {
+    width: 80vw;
+    height: 25vh;
+    font-size: 1.5rem; /* Ajusta o tamanho da fonte */
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem; /* Ainda menor para dispositivos muito pequenos */
+  }
+
+  .big-button {
+    width: 90vw;
+    height: 20vh;
+    font-size: 1.2rem;
+  }
 }
