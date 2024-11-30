@@ -5,35 +5,23 @@
       class="col-md-4 mb-4" 
       *ngFor="let comic of pagedComics | paginate: { itemsPerPage: 20, currentPage: currentPage }" 
       [hidden]="comic.hideComic">
-      <div class="card">
+      <div class="movie-item">
         <img 
           [src]="comic.thumbnail.path + '.' + comic.thumbnail.extension" 
           class="card-img-top" 
           alt="{{ comic.title }}" 
           (load)="handleImageError(comic)">
-        <div class="card-body">
+        <div class="overlay">
           <h5 class="card-title">{{ comic.title }}</h5>
-          <p class="card-text">{{ comic.description ?? 'Not defined' }}</p>
-          <p class="card-text"><strong>Pages:</strong> {{ comic.pageCount ?? '0' }}</p>
-          <p class="card-text"><strong>Format:</strong> {{ comic.format ?? 'Not defined' }}</p>
-          <p class="card-text" *ngIf="comic.prices && comic.prices.length > 0">
-            <strong>Price:</strong>
-            <span *ngFor="let price of comic.prices">
-              <span *ngIf="price.type && price.price">
-                {{ price.price | currency:'USD':'symbol' ?? 'Not defined'}}
-              </span>
-            </span>
-          </p>
-          <p class="card-text"><strong>Release date:</strong> {{ comic.onsaleDate ?? 'Not defined' }}</p>
-          <p class="card-text"><strong>UPC:</strong> {{ comic.upc ?? 'Not defined' }}</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Botão para voltar para Home -->
-  <button class="big-button btn btn-primary" (click)="navigateToHome()">Voltar para Home</button>
-
+  <div class="text-center mt-4">
+    <button class="big-button btn btn-primary" (click)="navigateToHome()">Voltar para Home</button>
+  </div>
 
   <div class="d-flex justify-content-center mt-3">
     <pagination-controls 

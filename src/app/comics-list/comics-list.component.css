@@ -1,36 +1,104 @@
-.movie-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-h1 {
-  color: white;
-  text-shadow: 2px 2px black;
-}
-
+/* Estilos para os cards de HQs */
 .movie-item {
-  width: 23%;
-  margin-bottom: 20px;
   position: relative;
+  width: 100%;
+  margin-bottom: 20px;
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
+  transition: opacity 0.5s ease; /* Apenas a transição de opacidade */
+  background: url('https://thewitcher.vercel.app/img/news-default-592.jpg') no-repeat center center; /* Imagem de fundo genérica */
+  background-size: cover;
+  opacity: .8;
+  height: 605.08px; /* Altura ajustada para 605.08px */
 }
 
-.movie-item img {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: transform 0.3s ease-in-out;
+/* O pseudo-elemento ::after agora estará sempre visível */
+.movie-item::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  opacity: 0.8; /* Sempre visível */
+  border-width: 12px;
+  border-style: solid;
+  border-image-source: url(https://thewitcher.vercel.app/img/frame.png);
+  border-image-slice: 12;
+  border-image-outset: 0;
+  border-image-repeat: round;
+  pointer-events: none;
 }
 
+/* Estilo do card: remove efeito de aumento e apenas aplica a opacidade no hover */
 .movie-item:hover {
-  transform: scale(1.05);
+  opacity: 1; /* Efeito de opacidade ao passar o mouse */
 }
 
-.movie-item:hover img {
-  transform: scale(1.1);
+/* Estilo do conteúdo do card (caixa de texto) */
+.movie-item .card-body {
+  position: relative;
+  background: linear-gradient(to bottom, transparent 0, #080909 45%);
+  padding: 15px; /* Reduzido o padding para otimizar o layout */
+  box-sizing: border-box;
+  transition: opacity 0.3s ease; /* Efeito de transição suave de opacidade */
+  z-index: 2;
+  height: 100%; /* Garante que o conteúdo da caixa de texto ocupe toda a altura do card */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribui o conteúdo de maneira uniforme */
+  opacity: .8;
+  transition: opacity 0.8s ease 0.3s;
+
+}
+.card-img-top {
+  opacity: .9;
+  transition: opacity 0.9s ease 0.3s;
+
 }
 
+.card-img-top:hover {
+  opacity: 1;
+  transition: opacity 1s ease 0.3s;
+
+}
+/* Exibe a caixa de texto com gradiente apenas no hover */
+.movie-item:hover .card-body {
+  opacity: 0.85; /* Aplica o efeito de opacidade na caixa de texto */
+  transition: opacity 0.85s ease 0.3s;
+
+}
+
+/* Sobreposição de texto */
+.overlay {
+  background: linear-gradient(to bottom, transparent 0, #080909 45%);
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  right: 5px;
+  padding: 40px 15px 10px;
+  text-align: center;
+  color: white;
+  opacity: 0.8;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 3;
+}
+
+.movie-item:hover .overlay {
+  opacity: 1; /* Exibe a sobreposição ao passar o mouse */
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .movie-item {
+    width: 48%;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-item {
+    width: 100%;
+  }
+}
