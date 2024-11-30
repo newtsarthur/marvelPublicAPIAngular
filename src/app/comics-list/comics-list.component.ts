@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ComicsService } from '../services/comics.service';
 import { CommonModule } from "@angular/common";
 import { NgFor } from '@angular/common';
+import { Router } from '@angular/router';  // Importando o Router
 import { NgxPaginationModule } from 'ngx-pagination';
 
 interface Comic {
-  digitalPurchasePrice: string | number
-  printPrice: string | number
-  onsaleDate: string
+  digitalPurchasePrice: string | number;
+  printPrice: string | number;
+  onsaleDate: string;
   id: number;
   digitalId: number;
   title: string;
@@ -40,7 +41,7 @@ interface Comic {
   prices: {
     type: string;
     price: number;
-  }[];
+  }[]; 
   resourceURI: string;
   series: {
     resourceURI: string;
@@ -63,8 +64,8 @@ interface Comic {
   }[];
   variantDescription: string;
   variants: any[];
+  hideComic?: boolean; // Nova propriedade para controle de visibilidade
 }
-
 
 @Component({
   selector: 'app-comics-list',
@@ -76,11 +77,11 @@ interface Comic {
 export class ComicsListComponent implements OnInit {
   pagedComics: Comic[] = [];
   comics: Comic[] = [];
-  currentPage: number = 1
+  currentPage: number = 1;
   itemsPerPage: number = 20;
   totalItems: number = 0;
 
-  constructor(private comicsService: ComicsService) {}
+  constructor(private comicsService: ComicsService, private router: Router) {}  // Injetando o Router
 
   ngOnInit(): void {
     this.getComics();
@@ -89,7 +90,7 @@ export class ComicsListComponent implements OnInit {
   getComics(): void {
     this.comicsService.getComics().subscribe((response: any) => {
       if (response && response.data.results) {
-        console.log(response.data)
+        console.log(response.data);
         this.comics = response.data.results;
         this.totalItems = this.comics.length;
         this.setPage(1);
@@ -103,7 +104,6 @@ export class ComicsListComponent implements OnInit {
     this.pagedComics = this.comics.slice(startIndex, endIndex);
     this.currentPage = page;
 
-
     this.pagedComics.forEach(comic => {
       const onsaleDate = comic.dates.find(date => date.type === 'focDate');
       comic.onsaleDate = onsaleDate ? onsaleDate.date : 'N/A';
@@ -116,9 +116,21 @@ export class ComicsListComponent implements OnInit {
     });
   }
 
-
-
   pageChanged(event: number): void {
     this.setPage(event);
   }
+
+  // Método para lidar com erro de carregamento da imagem
+  handleImageError(comic: Comic): void {
+    const unavailableImageURL = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
+    if (comic.thumbnail.path + '.' + comic.thumbnail.extension === unavailableImageURL) {
+      comic.hideComic = true; // Marca o comic para ser ocultado
+    }
+  }
+
+  // Método de navegação para a página de "Home"
+  navigateToHome(): void {
+    this.router.navigate(['/home']);
+  }
+  
 }
