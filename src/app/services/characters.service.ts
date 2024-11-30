@@ -1,7 +1,8 @@
-import { HttpClient } from "@angular/common/http"
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import md5 from "md5"
-import { Observable } from "rxjs"
+import md5 from "md5";
+import { Observable, of } from "rxjs";
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,6 @@ export class MovieService {
   private privateKey = '4ce75dd67836027ac5779471b2b620bc4b16ec6d';
   private baseUrl = 'https://gateway.marvel.com/v1/public/characters?';
 
-
   constructor(private http: HttpClient) {}
 
   getCharacters(): Observable<any[]> {
@@ -20,6 +20,11 @@ export class MovieService {
 
     const apiUrl = `${this.baseUrl}ts=${timestamp}&apikey=${this.publicKey}&hash=${hash}&limit=100`;
 
-    return this.http.get<any[]>(apiUrl);
+    return this.http.get<any[]>(apiUrl).pipe(
+      catchError(error => {
+        console.error('Error fetching data from Marvel API', error);
+        return of([]); // Retorna um array vazio em caso de erro
+      })
+    );
   }
 }
