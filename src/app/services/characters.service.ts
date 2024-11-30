@@ -9,7 +9,8 @@ import { Observable } from "rxjs"
 export class MovieService {
   private publicKey = 'de4919bce01bf7509d8f3486f4c3a930';
   private privateKey = '4ce75dd67836027ac5779471b2b620bc4b16ec6d';
-  private baseUrl = 'http://gateway.marvel.com/v1/public/characters?';
+  private baseUrl = 'https://gateway.marvel.com/v1/public/characters?';
+
 
   constructor(private http: HttpClient) {}
 
