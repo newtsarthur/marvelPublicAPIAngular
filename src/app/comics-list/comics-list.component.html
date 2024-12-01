@@ -1,6 +1,12 @@
 <div class="container">
   <h1 class="text-center">HQs</h1>
-  <div class="row">
+
+  <!-- Exibe o loading enquanto os dados estão sendo carregados -->
+  <div *ngIf="isLoading" class="col-12 text-center">
+    <p>Carregando...</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="row">
     <div 
       class="col-md-4 mb-4" 
       *ngFor="let comic of pagedComics | paginate: { itemsPerPage: 20, currentPage: currentPage }" 
@@ -28,5 +34,10 @@
       class="pagination-lg" 
       (pageChange)="pageChanged($event)">
     </pagination-controls>
+  </div>
+
+  <!-- Exibe a mensagem de erro caso haja algum problema ao carregar os dados -->
+  <div *ngIf="errorMessage" class="col-12 text-center text-danger">
+    <p>{{ errorMessage }}</p>
   </div>
 </div>
