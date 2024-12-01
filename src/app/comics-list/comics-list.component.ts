@@ -113,7 +113,7 @@ export class ComicsListComponent implements OnInit {
 
   setPage(page: number): void {
     const startIndex = (page - 1) * this.itemsPerPage;
-    const endIndex = startIndex + 80;
+    const endIndex = startIndex + 20;
     this.pagedComics = this.comics.slice(startIndex, endIndex);
     this.currentPage = page;
 
