@@ -23,7 +23,7 @@ export class ComicsService {
     return this.http.get<any[]>(apiUrl).pipe(
       catchError((error) => {
         console.error('Erro ao buscar quadrinhos', error);
-        return of([]); // Retorna um array vazio em caso de erro
+        return of([]);
       })
     );
   }

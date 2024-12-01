@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ComicsService } from '../services/comics.service';
 import { CommonModule } from "@angular/common";
 import { NgFor } from '@angular/common';
-import { Router } from '@angular/router';  // Importando o Router
+import { Router } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 interface Comic {
@@ -80,22 +80,35 @@ export class ComicsListComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 20;
   totalItems: number = 0;
+  isLoading: boolean = false;  // Propriedade para controlar o estado de carregamento
+  errorMessage: string | null = null;  // Propriedade para mensagens de erro
 
-  constructor(private comicsService: ComicsService, private router: Router) {}  // Injetando o Router
+  constructor(private comicsService: ComicsService, private router: Router) {}
 
   ngOnInit(): void {
     this.getComics();
   }
 
   getComics(): void {
-    this.comicsService.getComics().subscribe((response: any) => {
-      if (response && response.data.results) {
-        console.log(response.data);
-        this.comics = response.data.results;
-        this.totalItems = this.comics.length;
-        this.setPage(1);
+    this.isLoading = true;  // Ativar o loading antes de iniciar a requisição
+    this.errorMessage = null;  // Limpar a mensagem de erro anterior
+
+    this.comicsService.getComics().subscribe(
+      (response: any) => {
+        this.isLoading = false;  // Desativar o loading após a requisição
+        if (response && response.data.results) {
+          console.log(response.data);
+          this.comics = response.data.results;
+          this.totalItems = this.comics.length;
+          this.setPage(1);
+        }
+      },
+      (error) => {
+        this.isLoading = false;  // Desativar o loading em caso de erro
+        this.errorMessage = 'Erro ao carregar os quadrinhos';  // Mensagem de erro
+        console.error('Erro ao carregar os quadrinhos', error);
       }
-    });
+    );
   }
 
   setPage(page: number): void {
@@ -120,7 +133,6 @@ export class ComicsListComponent implements OnInit {
     this.setPage(event);
   }
 
-  // Método para lidar com erro de carregamento da imagem
   handleImageError(comic: Comic): void {
     const unavailableImageURL = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
     if (comic.thumbnail.path + '.' + comic.thumbnail.extension === unavailableImageURL) {
@@ -128,9 +140,7 @@ export class ComicsListComponent implements OnInit {
     }
   }
 
-  // Método de navegação para a página de "Home"
   navigateToHome(): void {
     this.router.navigate(['/home']);
   }
-  
 }

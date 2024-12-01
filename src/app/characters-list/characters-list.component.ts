@@ -1,8 +1,8 @@
-import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';  // Importando Router
 import { MovieService } from '../services/characters.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CommonModule } from '@angular/common';
 
 interface MarvelCharacter {
   id: number;
@@ -40,58 +40,71 @@ interface MarvelCharacter {
   }[];
 }
 
-
 @Component({
   selector: 'app-characters-list',
-  standalone: true,
-  imports: [NgIf, CommonModule, NgxPaginationModule],
   templateUrl: './characters-list.component.html',
-  styleUrl: './characters-list.component.css',
+  standalone: true,
+  imports: [NgxPaginationModule, CommonModule],
+  styleUrls: ['./characters-list.component.css'],
 })
-
 export class CharactersListComponent implements OnInit {
   characters: MarvelCharacter[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 10;
   pagedCharacters: MarvelCharacter[] = [];
+  isLoading: boolean = false;
+  errorMessage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
+    this.route.paramMap.subscribe(() => {
       this.getCharacters();
     });
   }
 
   getCharacters(): void {
-    this.movieService.getCharacters().subscribe((response: any) => {
-      if (response) {
-        this.characters = response.data.results;
+    this.isLoading = true;
+    this.movieService.getCharacters().subscribe(
+      (response: any) => {
+        this.isLoading = false;
+        if (response) {
+          // Filtrar personagens com imagem válida
+          this.characters = this.filterValidImages(response.data.results);
+          this.setPage(1);
+        }
+      },
+      (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Erro ao carregar personagens';
       }
-    });
+    );
+  }
+
+  // Filtrar personagens com imagem válida
+  filterValidImages(characters: MarvelCharacter[]): MarvelCharacter[] {
+    return characters.filter(character => 
+      character.thumbnail.path !== 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
+    );
   }
 
   onPageChange(event: number): void {
     this.currentPage = event;
-  }
-  getValidUrl(url: string): string {
-    if (!url.startsWith('http')) {
-      return 'https://' + url;
-    }
-    return url;
+    this.setPage(event);
   }
 
   setPage(page: number): void {
     const startIndex = (page - 1) * this.itemsPerPage;
-    const endIndex = startIndex + 80;
+    const endIndex = startIndex + this.itemsPerPage;
     this.pagedCharacters = this.characters.slice(startIndex, endIndex);
     this.currentPage = page;
   }
 
-  pageChanged(event: number): void {
-    this.setPage(event);
+  navigateToHome(): void {
+    this.router.navigate(['/home']);
   }
 }

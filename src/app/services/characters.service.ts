@@ -23,7 +23,7 @@ export class MovieService {
     return this.http.get<any[]>(apiUrl).pipe(
       catchError(error => {
         console.error('Error fetching data from Marvel API', error);
-        return of([]); // Retorna um array vazio em caso de erro
+        return of([]);
       })
     );
   }
