@@ -12,11 +12,13 @@ Grupo
 
 Arthur Belo da Silva - 01615335
 
-Rafael Francisco Caetano dos Santos - 01573983
+Gabriel César Ferreira Guimarães - 01589747
 
 José Lourenço de Andrade Neto - 01574884
 
+Pedro Queiroz -01566248
 
+Rafael Francisco Caetano dos Santos - 01573983
 
 ---
 
